@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Sander0542.CMLedController.Chroma": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

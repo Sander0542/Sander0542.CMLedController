@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sander0542.CMLedController.DeviceDotNet\Sander0542.CMLedController.DeviceDotNet.csproj" />
+      <ProjectReference Include="..\Sander0542.CMLedController.HidLibrary\Sander0542.CMLedController.HidLibrary.csproj" />
+    </ItemGroup>
+
+</Project>
