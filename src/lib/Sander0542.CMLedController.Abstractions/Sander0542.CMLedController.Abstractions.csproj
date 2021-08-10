@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../lib.props" />
+
+    <PropertyGroup>
+        <Description>Abstractions for Sander0542.CMLedController</Description>
+    </PropertyGroup>
+
+</Project>

@@ -11,6 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sander0542.CMLedController.DeviceDotNet\Sander0542.CMLedController.DeviceDotNet.csproj" />
+      <ProjectReference Include="..\lib\Sander0542.CMLedController\Sander0542.CMLedController.csproj" />
     </ItemGroup>
 </Project>

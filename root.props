@@ -1,0 +1,27 @@
+﻿<Project>
+    <PropertyGroup>
+        <Authors>Sander0542</Authors>
+        <Description>A library for the CoolerMaster RGB LED Controller</Description>
+        <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <LangVersion>8.0</LangVersion>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <NoWarn>$(NoWarn);CS1591;NU5105;NU5125</NoWarn>
+        <Nullable>annotations</Nullable>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/Sander0542/Sander0542.CMLedController</PackageProjectUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageTags>rgb;coolermaster;led;led-controller;controller;hid;hid-device</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/Sander0542/Sander0542.CMLedController</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)/LICENSE.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>LICENSE.txt</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+</Project>

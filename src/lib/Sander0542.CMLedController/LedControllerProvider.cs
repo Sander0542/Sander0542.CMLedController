@@ -2,17 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Device.Net;
-using Device.Net.LibUsb;
 using Hid.Net.Windows;
 using Sander0542.CMLedController.Abstractions;
 
-namespace Sander0542.CMLedController.DeviceDotNet
+namespace Sander0542.CMLedController
 {
-    public class DeviceDotNetLedControllerProvider : ILedControllerProvider
+    public class LedControllerProvider : ILedControllerProvider
     {
         private readonly IDeviceFactory _deviceFactory;
-        
-        public DeviceDotNetLedControllerProvider()
+
+        public LedControllerProvider()
         {
             _deviceFactory = GetFactory();
         }
@@ -26,13 +25,13 @@ namespace Sander0542.CMLedController.DeviceDotNet
 
         private async Task<IEnumerable<ILedControllerDevice>> MapDevicesAsync(IEnumerable<ConnectedDeviceDefinition> definitions, CancellationToken token = default)
         {
-            var devices = new List<DeviceDotNetLedControllerDevice>();
+            var devices = new List<LedControllerDevice>();
 
             foreach (var definition in definitions)
             {
                 var device = await _deviceFactory.GetDeviceAsync(definition, token);
                 await device.InitializeAsync(token);
-                devices.Add(new DeviceDotNetLedControllerDevice(device));
+                devices.Add(new LedControllerDevice(device));
             }
 
             return devices;
@@ -50,12 +49,7 @@ namespace Sander0542.CMLedController.DeviceDotNet
 
         private IDeviceFactory GetFactory()
         {
-            var filter = GetFilter();
-
-            var hidFactory = filter.CreateWindowsHidDeviceFactory();
-            var libUsbFactory = filter.CreateLibUsbDeviceFactory();
-
-            return hidFactory.Aggregate(libUsbFactory);
+            return GetFilter().CreateWindowsHidDeviceFactory();
         }
     }
 }

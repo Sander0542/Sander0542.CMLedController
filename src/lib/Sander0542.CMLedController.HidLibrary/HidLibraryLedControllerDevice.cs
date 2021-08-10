@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using HidLibrary;
+using Sander0542.CMLedController.Abstractions;
 
 namespace Sander0542.CMLedController.HidLibrary
 {
@@ -12,7 +13,7 @@ namespace Sander0542.CMLedController.HidLibrary
 
         protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
         {
-            Device.Write(data);
+            await Task.Run(() => Device.Write(data), token);
         }
     }
 }

@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sander0542.CMLedController.Abstractions;
 using Sander0542.CMLedController.Chroma.Services;
-using Sander0542.CMLedController.DeviceDotNet;
 
 namespace Sander0542.CMLedController.Chroma
 {
@@ -16,7 +15,7 @@ namespace Sander0542.CMLedController.Chroma
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) => {
-                    services.AddSingleton<ILedControllerProvider, DeviceDotNetLedControllerProvider>();
+                    services.AddSingleton<ILedControllerProvider, LedControllerProvider>();
                     services.AddHostedService<ChromaService>();
                 });
     }

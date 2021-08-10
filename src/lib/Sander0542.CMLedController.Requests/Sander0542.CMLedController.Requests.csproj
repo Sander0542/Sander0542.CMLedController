@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <Import Project="../lib.props" />
+
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <Description>Requests for Sander0542.CMLedController</Description>
     </PropertyGroup>
 
     <ItemGroup>

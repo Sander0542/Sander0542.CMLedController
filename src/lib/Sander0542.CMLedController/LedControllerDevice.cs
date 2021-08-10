@@ -1,12 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Device.Net;
+using Sander0542.CMLedController.Abstractions;
 
-namespace Sander0542.CMLedController.DeviceDotNet
+namespace Sander0542.CMLedController
 {
-    public class DeviceDotNetLedControllerDevice : LedControllerDevice<IDevice>
+    public class LedControllerDevice : LedControllerDevice<IDevice>
     {
-        public DeviceDotNetLedControllerDevice(IDevice device) : base(device)
+        public LedControllerDevice(IDevice device) : base(device)
         {
         }
 

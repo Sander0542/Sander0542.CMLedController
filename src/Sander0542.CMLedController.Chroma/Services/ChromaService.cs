@@ -7,15 +7,13 @@ using ChromaBroadcast;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sander0542.CMLedController.Abstractions;
+using Sander0542.CMLedController.Extensions;
 
 namespace Sander0542.CMLedController.Chroma.Services
 {
     public class ChromaService : BackgroundService
     {
-        // private static readonly Guid ChromeBroadcastGuid = Guid.Empty;
-        // private static readonly Guid ChromeBroadcastGuid = Guid.Parse("560e8823-636a-40a4-900f-209a512a5be5");
-        private static readonly Guid ChromeBroadcastGuid = Guid.Parse("33d8f7b0-fb49-4705-b343-ae536033afc3");
-        // private static readonly Guid ChromeBroadcastGuid = Guid.Parse("def05dce-1662-4d9a-a312-a31028651915");
+        private static readonly Guid ChromeBroadcastGuid = Guid.Empty;
 
         private readonly ILogger<ChromaService> _logger;
         private readonly ILedControllerProvider _ledControllerProvider;
