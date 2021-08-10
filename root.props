@@ -14,6 +14,7 @@
         <PackageTags>rgb;coolermaster;led;led-controller;controller;hid;hid-device</PackageTags>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/Sander0542/Sander0542.CMLedController</RepositoryUrl>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
