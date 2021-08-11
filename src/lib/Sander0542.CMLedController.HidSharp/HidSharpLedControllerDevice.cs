@@ -12,10 +12,15 @@ namespace Sander0542.CMLedController.HidSharp
 
         public HidSharpLedControllerDevice(HidDevice device) : base(device)
         {
+            if (!Device.TryOpen(out _stream))
+            {
+                throw new InvalidOperationException("Could not open stream to Led Controller");
+            }
         }
 
         protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
         {
+            await _stream.WriteAsync(data, token);
         }
     }
 }
