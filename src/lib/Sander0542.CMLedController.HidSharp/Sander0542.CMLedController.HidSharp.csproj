@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../lib.props" />
+
+    <PropertyGroup>
+        <Description>CMLedController implementation of Sander0542.CMLedController using HidSharp</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sander0542.CMLedController.Abstractions\Sander0542.CMLedController.Abstractions.csproj" />
+        <ProjectReference Include="..\Sander0542.CMLedController.Extensions\Sander0542.CMLedController.Extensions.csproj" />
+        <ProjectReference Include="..\Sander0542.CMLedController.Requests\Sander0542.CMLedController.Requests.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HidSharp " Version="2.1.0" />
+    </ItemGroup>
+
+</Project>
