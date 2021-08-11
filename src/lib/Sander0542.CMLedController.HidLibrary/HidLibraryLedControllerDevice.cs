@@ -7,6 +7,7 @@ namespace Sander0542.CMLedController.HidLibrary
 {
     public class HidLibraryLedControllerDevice : LedControllerDevice<HidDevice>
     {
+
         public HidLibraryLedControllerDevice(HidDevice device) : base(device)
         {
         }

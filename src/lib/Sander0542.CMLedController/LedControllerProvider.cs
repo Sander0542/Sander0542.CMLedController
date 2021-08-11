@@ -31,6 +31,7 @@ namespace Sander0542.CMLedController
             {
                 var device = await _deviceFactory.GetDeviceAsync(definition, token);
                 await device.InitializeAsync(token);
+                
                 devices.Add(new LedControllerDevice(device));
             }
 
