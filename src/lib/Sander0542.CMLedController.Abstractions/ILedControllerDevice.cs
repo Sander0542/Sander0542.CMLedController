@@ -8,21 +8,15 @@ namespace Sander0542.CMLedController.Abstractions
 {
     public interface ILedControllerDevice : IDisposable
     {
-        string GetDeviceName();
+        Mode Mode { get; }
 
-        string GetSerial();
+        byte Speed { get; }
 
-        string GetLocation();
+        byte Brightness { get; }
 
-        Mode GetMode();
+        Color GetModeColor(int colorIndex);
 
-        byte GetSpeed();
-
-        byte GetBrightness();
-
-        Color GetModeColor(int colorNumber);
-
-        Color GetPortColor(int portNumber);
+        Color GetPortColor(int portIndex);
 
         Task SetModeAsync(Mode mode, byte speed, byte brightness, Color color1, Color color2, CancellationToken token = default);
 
