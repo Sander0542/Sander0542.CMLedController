@@ -2,8 +2,10 @@
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
+using Sander0542.CMLedController.Abstractions;
 using Sander0542.CMLedController.Extensions;
 using Sander0542.CMLedController.HidLibrary;
+using Sander0542.CMLedController.HidSharp;
 
 namespace Sander0542.CMLedController.Console
 {
@@ -12,8 +14,10 @@ namespace Sander0542.CMLedController.Console
         static async Task Main(string[] args)
         {
             CancellationToken token = default;
-            var provider = new LedControllerProvider();
-            // var provider = new HidLibraryLedControllerProvider();
+            ILedControllerProvider provider;
+            // provider = new LedControllerProvider();
+            // provider = new HidLibraryLedControllerProvider();
+            provider = new HidSharpLedControllerProvider();
 
             var devices = await provider.GetControllersAsync(token);
             foreach (var device in devices)
