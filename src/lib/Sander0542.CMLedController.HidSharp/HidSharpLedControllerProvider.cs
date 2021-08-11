@@ -11,6 +11,9 @@ namespace Sander0542.CMLedController.HidSharp
     {
         public async Task<IEnumerable<ILedControllerDevice>> GetControllersAsync(CancellationToken token = default)
         {
+            var devices = DeviceList.Local.GetHidDevices(Constants.VendorId, Constants.ProductId); //TODO Filter for the right HidDevice by UsagePage
+
+            return devices.Select(device => new HidSharpLedControllerDevice(device));
         }
     }
 }
