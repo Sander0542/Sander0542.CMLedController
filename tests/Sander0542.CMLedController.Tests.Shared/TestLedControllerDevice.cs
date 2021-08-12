@@ -10,11 +10,6 @@ namespace Sander0542.CMLedController.Tests.Shared
         {
         }
 
-        protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
-        {
-            Device.Write(data);
-        }
-
         protected override async Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default)
         {
             return Device.WriteAndRead(data);
