@@ -21,8 +21,9 @@ namespace Sander0542.CMLedController.Console
                 await device.SetStaticAsync(RandomColor(), token);
                 await device.SetMultipleColorAsync(RandomColor(), RandomColor(), RandomColor(), RandomColor(), token);
                 await device.SetBreathingAsync(RandomColor(), 5, token);
-                await device.SetStarAsync(RandomColor(), 5, token);
+                await device.SetStarAsync(RandomColor(), RandomColor(), 5, 0xFF, token);
                 await device.SetColorCycleAsync(5, 5, token);
+                await device.SetOffAsync(token);
             }
         }
 

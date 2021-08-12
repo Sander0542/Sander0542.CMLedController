@@ -7,13 +7,25 @@ namespace Sander0542.CMLedController.HidLibrary
 {
     public class HidLibraryLedControllerDevice : LedControllerDevice<HidDevice>
     {
+
         public HidLibraryLedControllerDevice(HidDevice device) : base(device)
         {
         }
 
         protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
         {
-            await Task.Run(() => Device.Write(data), token);
+            await Task.Run(() => Device.Write(PrepareData(data)), token);
+        }
+
+        protected override async Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default)
+        {
+            Device.Write(PrepareData(data));
+            return Device.Read().Data;
+        }
+
+        public override void Dispose()
+        {
+            Device.Dispose();
         }
     }
 }

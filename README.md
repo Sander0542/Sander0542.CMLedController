@@ -10,7 +10,6 @@ A library for the CoolerMaster RGB LED Controller
 |---------|--------------|-----------|
 | Sander0542.CMLedController | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController) |
 | Sander0542.CMLedController.Abstractions | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.Abstractions) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.Abstractions) |
-| Sander0542.CMLedController.Requests | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.Requests) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.Requests) |
 | Sander0542.CMLedController.Extensions | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.Extensions) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.Extensions) |
 | Sander0542.CMLedController.HidLibrary | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.HidLibrary) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.HidLibrary) |
 
@@ -34,7 +33,7 @@ public async Task SetColorRed()
     var devices = await provider.GetControllersAsync();
     
     foreach (var device in devices) {
-        await device.SendRequestAsync(new StaticColorRequest(Color.Red));
+        await device.SetStaticAsync(Color.Red);
     }
 }
 ```
