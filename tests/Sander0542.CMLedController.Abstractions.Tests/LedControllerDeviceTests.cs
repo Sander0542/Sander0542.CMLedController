@@ -19,7 +19,7 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             await controller.SetModeAsync(Mode.Breathing, Speed.None, 0xFF, Color.Red, Color.Blue);
 
             Assert.Equal(Mode.Breathing, controller.Mode);
-            mockDevice.Verify(device => device.Write(It.IsAny<byte[]>()), Times.AtLeastOnce);
+            mockDevice.Verify(device => device.WriteAndRead(It.IsAny<byte[]>()), Times.AtLeastOnce);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             await controller.SetModeAsync(Mode.Breathing, Speed.BreathingFastest, 0xFF, Color.Red, Color.Blue);
 
             Assert.Equal((byte)Speed.BreathingFastest, controller.Speed);
-            mockDevice.Verify(device => device.Write(It.IsAny<byte[]>()), Times.AtLeastOnce);
+            mockDevice.Verify(device => device.WriteAndRead(It.IsAny<byte[]>()), Times.AtLeastOnce);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             await controller.SetModeAsync(Mode.Breathing, Speed.None, 0xEF, Color.Red, Color.Blue);
 
             Assert.Equal(0xEF, controller.Brightness);
-            mockDevice.Verify(device => device.Write(It.IsAny<byte[]>()), Times.AtLeastOnce);
+            mockDevice.Verify(device => device.WriteAndRead(It.IsAny<byte[]>()), Times.AtLeastOnce);
         }
 
         [Theory]
@@ -63,7 +63,7 @@ namespace Sander0542.CMLedController.Abstractions.Tests
 
             Assert.Equal(color1, controller.GetModeColor(0));
             Assert.Equal(color2, controller.GetModeColor(1));
-            mockDevice.Verify(device => device.Write(It.IsAny<byte[]>()), Times.AtLeastOnce);
+            mockDevice.Verify(device => device.WriteAndRead(It.IsAny<byte[]>()), Times.AtLeastOnce);
         }
 
         [Theory]
@@ -87,7 +87,7 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             Assert.Equal(color2, controller.GetPortColor(1));
             Assert.Equal(color3, controller.GetPortColor(2));
             Assert.Equal(color4, controller.GetPortColor(3));
-            mockDevice.Verify(device => device.Write(It.IsAny<byte[]>()), Times.AtLeastOnce);
+            mockDevice.Verify(device => device.WriteAndRead(It.IsAny<byte[]>()), Times.AtLeastOnce);
         }
 
         [Theory]

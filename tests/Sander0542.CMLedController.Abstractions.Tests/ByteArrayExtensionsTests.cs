@@ -46,5 +46,33 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             Assert.Equal(Constants.PacketSize + 1, result.Length);
             Assert.Equal(0x00, result[0]);
         }
+
+        [Fact]
+        public void Call_PrepareResponse_ReturnsSame()
+        {
+            var data = new byte[Constants.PacketSize];
+
+            var result = data.PrepareResponse();
+
+            Assert.Same(data, result);
+        }
+
+        [Fact]
+        public void Call_PrepareResponse_TooLong_ThrowsError()
+        {
+            var data = new byte[Constants.PacketSize + 2];
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => data.PrepareResponse());
+        }
+
+        [Fact]
+        public void Call_PrepareResponse_TooShort_ReturnsRightSize()
+        {
+            var data = new byte[Constants.PacketSize - 10];
+
+            var result = data.PrepareResponse();
+
+            Assert.Equal(Constants.PacketSize, result.Length);
+        }
     }
 }
