@@ -13,7 +13,7 @@ namespace Sander0542.CMLedController.Abstractions.Enums
 
         public override bool Equals(object obj)
         {
-            return (obj is Castable<T> castable) ? Equals(castable) : obj.Equals(this);
+            return obj is Castable<T> castable ? Equals(castable) : obj.Equals(this);
         }
 
         private bool Equals(Castable<T> other)
