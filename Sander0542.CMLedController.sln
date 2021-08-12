@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sander0542.CMLedController.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sander0542.CMLedController.Tests.Shared", "tests\Sander0542.CMLedController.Tests.Shared\Sander0542.CMLedController.Tests.Shared.csproj", "{61554D47-F7D7-4438-958C-92C80276AA42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sander0542.CMLedController.Abstractions.Tests", "tests\Sander0542.CMLedController.Abstractions.Tests\Sander0542.CMLedController.Abstractions.Tests.csproj", "{D4AFD886-6AD9-4D33-91FA-85674F47C265}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{61554D47-F7D7-4438-958C-92C80276AA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61554D47-F7D7-4438-958C-92C80276AA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61554D47-F7D7-4438-958C-92C80276AA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4AFD886-6AD9-4D33-91FA-85674F47C265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4AFD886-6AD9-4D33-91FA-85674F47C265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4AFD886-6AD9-4D33-91FA-85674F47C265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4AFD886-6AD9-4D33-91FA-85674F47C265}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{17AD0A8D-31E5-4EB5-A88D-4624BED47E4A} = {FF7A7245-5961-4C06-A2D8-339978F36A41}
@@ -94,5 +100,6 @@ Global
 		{16B5DA52-FAEE-4680-90C7-630DE13711D4} = {2E69E693-5378-469D-B104-84203E1CE0BE}
 		{3A0968BA-B9B8-407D-8C21-FD389EA8880C} = {2E69E693-5378-469D-B104-84203E1CE0BE}
 		{61554D47-F7D7-4438-958C-92C80276AA42} = {2E69E693-5378-469D-B104-84203E1CE0BE}
+		{D4AFD886-6AD9-4D33-91FA-85674F47C265} = {2E69E693-5378-469D-B104-84203E1CE0BE}
 	EndGlobalSection
 EndGlobal
