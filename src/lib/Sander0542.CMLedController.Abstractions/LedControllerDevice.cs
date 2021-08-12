@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Sander0542.CMLedController.Abstractions.Enums;
+using Sander0542.CMLedController.Abstractions.Extensions;
 
 namespace Sander0542.CMLedController.Abstractions
 {
@@ -115,7 +116,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[0] = OpCode.FlowControl;
             data[1] = flag;
 
-            await WriteAsync(data, token);
+            await WriteAsync(data.PreparePacket(), token);
         }
 
         private async Task SendApplyAsync(CancellationToken token = default)
@@ -124,7 +125,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[0] = OpCode.Unknown50;
             data[1] = OpCodeType.Unknown55;
 
-            await WriteAsync(data, token);
+            await WriteAsync(data.PreparePacket(), token);
         }
 
         private async Task SendReadModeAsync(CancellationToken token = default)
@@ -133,7 +134,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Mode;
 
-            var response = await WriteAndReadAsync(data, token);
+            var response = await WriteAndReadAsync(data.PreparePacket(), token);
 
             Mode = response[PacketOffset.Mode];
         }
@@ -145,7 +146,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Type] = OpCodeType.Mode;
             data[PacketOffset.Mode] = mode;
 
-            await WriteAsync(data, token);
+            await WriteAsync(data.PreparePacket(), token);
         }
 
         private async Task SendSetCustomColorsAsync(Color color1, Color color2, Color color3, Color color4, CancellationToken token = default)
@@ -175,7 +176,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.MultipleColor4 + 1] = color4.G;
             data[PacketOffset.MultipleColor4 + 2] = color4.B;
 
-            await WriteAsync(data, token);
+            await WriteAsync(data.PreparePacket(), token);
         }
 
         private async Task SendReadCustomColorsAsync(CancellationToken token = default)
@@ -184,7 +185,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.LedInfo;
 
-            var response = await WriteAndReadAsync(data, token);
+            var response = await WriteAndReadAsync(data.PreparePacket(), token);
 
             _port1Color = Color.FromArgb(
                 response[PacketOffset.MultipleColor1],
@@ -258,7 +259,7 @@ namespace Sander0542.CMLedController.Abstractions
                 }
             }
 
-            await WriteAsync(data, token);
+            await WriteAsync(data.PreparePacket(), token);
         }
 
         private async Task SendReadConfigAsync(Mode mode, CancellationToken token = default)
@@ -268,7 +269,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Type] = OpCodeType.ConfigFull;
             data[PacketOffset.Mode] = mode;
 
-            var response = await WriteAndReadAsync(data, token);
+            var response = await WriteAndReadAsync(data.PreparePacket(), token);
 
             Mode = mode;
             Speed = response[PacketOffset.Speed];
@@ -292,32 +293,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Unknown30;
 
-            await WriteAsync(data, token);
-        }
-
-        protected byte[] PrepareData(byte[] data)
-        {
-            if (data.Length == PacketSize)
-            {
-                return new byte[] { 0x00 }.Concat(data).ToArray();
-            }
-
-            if (data.Length == PacketSize + 1 && data[0] == 0x00)
-            {
-                return data;
-            }
-
-            if (data.Length > PacketSize)
-            {
-                throw new ArgumentOutOfRangeException(nameof(data), $"The data of the packet cannot be greater than {PacketSize}");
-            }
-
-            var newData = data.ToList();
-            while (newData.Count < PacketSize)
-            {
-                newData.Add(0x00);
-            }
-            return new byte[] { 0x00 }.Concat(newData).ToArray();
+            await WriteAsync(data.PreparePacket(), token);
         }
     }
 }

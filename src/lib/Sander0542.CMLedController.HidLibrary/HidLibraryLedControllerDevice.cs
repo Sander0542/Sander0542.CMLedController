@@ -14,12 +14,12 @@ namespace Sander0542.CMLedController.HidLibrary
 
         protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
         {
-            await Task.Run(() => Device.Write(PrepareData(data)), token);
+            await Task.Run(() => Device.Write(data), token);
         }
 
         protected override async Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default)
         {
-            Device.Write(PrepareData(data));
+            Device.Write(data);
             return Device.Read().Data;
         }
 
