@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Moq;
 using Sander0542.CMLedController.Abstractions.Enums;
 using Sander0542.CMLedController.Abstractions.Extensions;
@@ -11,7 +12,7 @@ namespace Sander0542.CMLedController.Tests
     public class LedControllerDeviceTests
     {
         [Fact]
-        public async void Call_SetMode_SetsMode()
+        public async Task Call_SetMode_SetsMode()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -23,7 +24,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_SetMode_SetsSpeed()
+        public async Task Call_SetMode_SetsSpeed()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -35,7 +36,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_SetMode_SetsBrightness()
+        public async Task Call_SetMode_SetsBrightness()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -51,7 +52,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue)]
         [InlineData(KnownColor.Blue, KnownColor.White)]
         [InlineData(KnownColor.White, KnownColor.Red)]
-        public async void Call_SetMode_SetsColorMode(KnownColor knownColor1, KnownColor knownColor2)
+        public async Task Call_SetMode_SetsColorMode(KnownColor knownColor1, KnownColor knownColor2)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -71,7 +72,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue, KnownColor.White, KnownColor.Red)]
         [InlineData(KnownColor.Blue, KnownColor.White, KnownColor.Red, KnownColor.Green)]
         [InlineData(KnownColor.White, KnownColor.Red, KnownColor.Green, KnownColor.Blue)]
-        public async void Call_SetMode_SetsPortColor(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
+        public async Task Call_SetMode_SetsPortColor(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -117,7 +118,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_ReadCurrentMode_CallsWriteAndRead()
+        public async Task Call_ReadCurrentMode_CallsWriteAndRead()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
@@ -139,7 +140,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(0x6F, 0x8A, KnownColor.Green, KnownColor.Blue)]
         [InlineData(0xD3, 0xB3, KnownColor.Blue, KnownColor.White)]
         [InlineData(0xE9, 0xEA, KnownColor.White, KnownColor.Red)]
-        public async void Call_ReadModeConfig_CallsWriteAndRead(byte speed, byte brightness, KnownColor knownColor1, KnownColor knownColor2)
+        public async Task Call_ReadModeConfig_CallsWriteAndRead(byte speed, byte brightness, KnownColor knownColor1, KnownColor knownColor2)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -171,7 +172,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue, KnownColor.White, KnownColor.Red)]
         [InlineData(KnownColor.Blue, KnownColor.White, KnownColor.Red, KnownColor.Green)]
         [InlineData(KnownColor.White, KnownColor.Red, KnownColor.Green, KnownColor.Blue)]
-        public async void Call_ReadModeConfigMultiple_CallsWriteAndRead(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
+        public async Task Call_ReadModeConfigMultiple_CallsWriteAndRead(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
