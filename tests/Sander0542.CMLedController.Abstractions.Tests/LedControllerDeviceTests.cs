@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using Moq;
@@ -7,7 +6,7 @@ using Sander0542.CMLedController.Abstractions.Extensions;
 using Sander0542.CMLedController.Tests.Shared;
 using Xunit;
 
-namespace Sander0542.CMLedController.Tests
+namespace Sander0542.CMLedController.Abstractions.Tests
 {
     public class LedControllerDeviceTests
     {
@@ -198,6 +197,17 @@ namespace Sander0542.CMLedController.Tests
             Assert.Equal(color2.ToArgb(), controller.GetPortColor(1).ToArgb());
             Assert.Equal(color3.ToArgb(), controller.GetPortColor(2).ToArgb());
             Assert.Equal(color4.ToArgb(), controller.GetPortColor(3).ToArgb());
+        }
+
+        [Fact]
+        public async Task Call_Dispose_ShouldDisposeDevice()
+        {
+            var mockDevice = new Mock<ITestHidDevice>();
+            var controller = new TestLedControllerDevice(mockDevice.Object);
+
+            controller.Dispose();
+
+            mockDevice.Verify(device => device.Dispose(), Times.Once);
         }
     }
 }
