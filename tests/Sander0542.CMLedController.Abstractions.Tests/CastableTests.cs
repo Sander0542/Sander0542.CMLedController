@@ -1,7 +1,7 @@
 ﻿using Sander0542.CMLedController.Abstractions.Enums;
 using Xunit;
 
-namespace Sander0542.CMLedController.Tests
+namespace Sander0542.CMLedController.Abstractions.Tests
 {
     public class CastableTests
     {
