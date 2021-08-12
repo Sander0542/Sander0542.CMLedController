@@ -29,6 +29,16 @@ namespace Sander0542.CMLedController.Abstractions
 
         protected abstract Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default);
 
+        protected async Task WriteDataAsync(byte[] data, CancellationToken token = default)
+        {
+            await WriteAsync(data.PreparePacket(), token);
+        }
+
+        protected async Task<byte[]> WriteAndReadDataAsync(byte[] data, CancellationToken token = default)
+        {
+            return (await WriteAndReadAsync(data.PreparePacket(), token)).PrepareResponse();
+        }
+
         public abstract void Dispose();
 
         public Mode Mode { get; private set; }
@@ -116,7 +126,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[0] = OpCode.FlowControl;
             data[1] = flag;
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
 
         private async Task SendApplyAsync(CancellationToken token = default)
@@ -125,7 +135,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[0] = OpCode.Unknown50;
             data[1] = OpCodeType.Unknown55;
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
 
         private async Task SendReadModeAsync(CancellationToken token = default)
@@ -134,7 +144,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Mode;
 
-            var response = await WriteAndReadAsync(data.PreparePacket(), token);
+            var response = await WriteAndReadDataAsync(data, token);
 
             Mode = response[PacketOffset.Mode];
         }
@@ -146,7 +156,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Type] = OpCodeType.Mode;
             data[PacketOffset.Mode] = mode;
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
 
         private async Task SendSetCustomColorsAsync(Color color1, Color color2, Color color3, Color color4, CancellationToken token = default)
@@ -165,7 +175,7 @@ namespace Sander0542.CMLedController.Abstractions
             data.SetColor(PacketOffset.MultipleColor3, color3);
             data.SetColor(PacketOffset.MultipleColor4, color4);
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
 
         private async Task SendReadCustomColorsAsync(CancellationToken token = default)
@@ -174,7 +184,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.LedInfo;
 
-            var response = await WriteAndReadAsync(data.PreparePacket(), token);
+            var response = await WriteAndReadDataAsync(data, token);
 
             _port1Color = response.GetColor(PacketOffset.MultipleColor1);
             _port2Color = response.GetColor(PacketOffset.MultipleColor2);
@@ -225,7 +235,7 @@ namespace Sander0542.CMLedController.Abstractions
                 }
             }
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
 
         private async Task SendReadConfigAsync(Mode mode, CancellationToken token = default)
@@ -235,7 +245,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Type] = OpCodeType.ConfigFull;
             data[PacketOffset.Mode] = mode;
 
-            var response = await WriteAndReadAsync(data.PreparePacket(), token);
+            var response = await WriteAndReadDataAsync(data, token);
 
             Mode = mode;
             Speed = response[PacketOffset.Speed];
@@ -251,7 +261,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Unknown30;
 
-            await WriteAsync(data.PreparePacket(), token);
+            await WriteDataAsync(data, token);
         }
     }
 }
