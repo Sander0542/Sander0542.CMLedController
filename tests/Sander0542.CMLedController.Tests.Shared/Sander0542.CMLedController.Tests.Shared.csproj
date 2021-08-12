@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../../root.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\lib\Sander0542.CMLedController.Abstractions\Sander0542.CMLedController.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>
