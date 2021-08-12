@@ -7,5 +7,7 @@
         public const int ProductId = 0x004F;
         
         public const ushort UsagePage = 65280;
+
+        public const int PacketSize = 64;
     }
 }

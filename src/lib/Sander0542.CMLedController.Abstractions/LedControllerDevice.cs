@@ -9,8 +9,6 @@ namespace Sander0542.CMLedController.Abstractions
 {
     public abstract class LedControllerDevice<TDevice> : ILedControllerDevice
     {
-        public const int PacketSize = 64;
-
         protected TDevice Device;
 
         private Color _modeColor1;
@@ -113,7 +111,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendFlowControlAsync(byte flag, CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[0] = OpCode.FlowControl;
             data[1] = flag;
 
@@ -122,7 +120,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendApplyAsync(CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[0] = OpCode.Unknown50;
             data[1] = OpCodeType.Unknown55;
 
@@ -131,7 +129,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendReadModeAsync(CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Mode;
 
@@ -142,7 +140,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendSetModeAsync(Mode mode, CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Write;
             data[PacketOffset.Type] = OpCodeType.Mode;
             data[PacketOffset.Mode] = mode;
@@ -157,7 +155,7 @@ namespace Sander0542.CMLedController.Abstractions
             _port3Color = color3;
             _port4Color = color4;
 
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Write;
             data[PacketOffset.Type] = OpCodeType.LedInfo;
 
@@ -182,7 +180,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendReadCustomColorsAsync(CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.LedInfo;
 
@@ -232,7 +230,7 @@ namespace Sander0542.CMLedController.Abstractions
                 brightness = 0x03;
             }
 
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Write;
             data[PacketOffset.Type] = simplified ? OpCodeType.ConfigSimplified : OpCodeType.ConfigFull;
             data[PacketOffset.Mode] = mode;
@@ -265,7 +263,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendReadConfigAsync(Mode mode, CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.ConfigFull;
             data[PacketOffset.Mode] = mode;
@@ -290,7 +288,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendCustomColorStartAsync(CancellationToken token = default)
         {
-            var data = new byte[PacketSize];
+            var data = new byte[Constants.PacketSize];
             data[PacketOffset.Op] = OpCode.Read;
             data[PacketOffset.Type] = OpCodeType.Unknown30;
 
