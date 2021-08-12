@@ -38,7 +38,7 @@ namespace Sander0542.CMLedController.Abstractions
 
         public byte Brightness { get; private set; }
 
-        public Color GetModeColor(int colorIndex)
+        public virtual Color GetModeColor(int colorIndex)
         {
             return colorIndex switch
             {
@@ -48,7 +48,7 @@ namespace Sander0542.CMLedController.Abstractions
             };
         }
 
-        public Color GetPortColor(int portIndex)
+        public virtual Color GetPortColor(int portIndex)
         {
             return portIndex switch
             {
@@ -60,7 +60,7 @@ namespace Sander0542.CMLedController.Abstractions
             };
         }
 
-        public async Task SetModeAsync(Mode mode, byte speed, byte brightness, Color color1, Color color2, CancellationToken token = default)
+        public virtual async Task SetModeAsync(Mode mode, byte speed, byte brightness, Color color1, Color color2, CancellationToken token = default)
         {
             await SendFlowControlAsync(OpCodeFlow.Flow01, token);
 
@@ -73,7 +73,7 @@ namespace Sander0542.CMLedController.Abstractions
             await SendFlowControlAsync(OpCodeFlow.Flow00, token);
         }
 
-        public async Task SetLedsDirectAsync(Color color1, Color color2, Color color3, Color color4, CancellationToken token = default)
+        public virtual async Task SetLedsDirectAsync(Color color1, Color color2, Color color3, Color color4, CancellationToken token = default)
         {
             await SendFlowControlAsync(OpCodeFlow.Flow80, token);
 
@@ -92,14 +92,14 @@ namespace Sander0542.CMLedController.Abstractions
             await SendFlowControlAsync(OpCodeFlow.Flow00, token);
         }
 
-        public async Task ReadCurrentModeAsync(CancellationToken token = default)
+        public virtual async Task ReadCurrentModeAsync(CancellationToken token = default)
         {
             await SendFlowControlAsync(OpCodeFlow.Flow01, token);
 
             await SendReadModeAsync(token);
         }
 
-        public async Task ReadModeConfigAsync(Mode mode, CancellationToken token = default)
+        public virtual async Task ReadModeConfigAsync(Mode mode, CancellationToken token = default)
         {
             await SendFlowControlAsync(OpCodeFlow.Flow00, token);
 

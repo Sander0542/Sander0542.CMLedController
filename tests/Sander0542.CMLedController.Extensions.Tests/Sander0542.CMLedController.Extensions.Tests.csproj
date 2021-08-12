@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../tests.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\lib\Sander0542.CMLedController.Extensions\Sander0542.CMLedController.Extensions.csproj" />
+      <ProjectReference Include="..\Sander0542.CMLedController.Tests.Shared\Sander0542.CMLedController.Tests.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
