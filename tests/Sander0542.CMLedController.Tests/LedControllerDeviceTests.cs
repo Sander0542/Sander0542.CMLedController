@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using Moq;
 using Sander0542.CMLedController.Abstractions.Enums;
+using Sander0542.CMLedController.Abstractions.Extensions;
 using Sander0542.CMLedController.Tests.Shared;
 using Xunit;
 
@@ -148,12 +149,8 @@ namespace Sander0542.CMLedController.Tests
                 var response = new byte[64];
                 response[PacketOffset.Speed] = speed;
                 response[PacketOffset.Brightness] = brightness;
-                response[PacketOffset.Color1] = color1.R;
-                response[PacketOffset.Color1 + 1] = color1.G;
-                response[PacketOffset.Color1 + 2] = color1.B;
-                response[PacketOffset.Color2] = color2.R;
-                response[PacketOffset.Color2 + 1] = color2.G;
-                response[PacketOffset.Color2 + 2] = color2.B;
+                response.SetColor(PacketOffset.Color1, color1);
+                response.SetColor(PacketOffset.Color2, color2);
 
                 return response;
             });
@@ -184,18 +181,10 @@ namespace Sander0542.CMLedController.Tests
             var mockDevice = new Mock<ITestHidDevice>();
             mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
                 var response = new byte[64];
-                response[PacketOffset.MultipleColor1] = color1.R;
-                response[PacketOffset.MultipleColor1 + 1] = color1.G;
-                response[PacketOffset.MultipleColor1 + 2] = color1.B;
-                response[PacketOffset.MultipleColor2] = color2.R;
-                response[PacketOffset.MultipleColor2 + 1] = color2.G;
-                response[PacketOffset.MultipleColor2 + 2] = color2.B;
-                response[PacketOffset.MultipleColor3] = color3.R;
-                response[PacketOffset.MultipleColor3 + 1] = color3.G;
-                response[PacketOffset.MultipleColor3 + 2] = color3.B;
-                response[PacketOffset.MultipleColor4] = color4.R;
-                response[PacketOffset.MultipleColor4 + 1] = color4.G;
-                response[PacketOffset.MultipleColor4 + 2] = color4.B;
+                response.SetColor(PacketOffset.MultipleColor1, color1);
+                response.SetColor(PacketOffset.MultipleColor2, color2);
+                response.SetColor(PacketOffset.MultipleColor3, color3);
+                response.SetColor(PacketOffset.MultipleColor4, color4);
 
                 return response;
             });
