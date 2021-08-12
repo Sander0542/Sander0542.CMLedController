@@ -160,21 +160,10 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Op] = OpCode.Write;
             data[PacketOffset.Type] = OpCodeType.LedInfo;
 
-            data[PacketOffset.MultipleColor1] = color1.R;
-            data[PacketOffset.MultipleColor1 + 1] = color1.G;
-            data[PacketOffset.MultipleColor1 + 2] = color1.B;
-
-            data[PacketOffset.MultipleColor2] = color2.R;
-            data[PacketOffset.MultipleColor2 + 1] = color2.G;
-            data[PacketOffset.MultipleColor2 + 2] = color2.B;
-
-            data[PacketOffset.MultipleColor3] = color3.R;
-            data[PacketOffset.MultipleColor3 + 1] = color3.G;
-            data[PacketOffset.MultipleColor3 + 2] = color3.B;
-
-            data[PacketOffset.MultipleColor4] = color4.R;
-            data[PacketOffset.MultipleColor4 + 1] = color4.G;
-            data[PacketOffset.MultipleColor4 + 2] = color4.B;
+            data.SetColor(PacketOffset.MultipleColor1, color1);
+            data.SetColor(PacketOffset.MultipleColor2, color2);
+            data.SetColor(PacketOffset.MultipleColor3, color3);
+            data.SetColor(PacketOffset.MultipleColor4, color4);
 
             await WriteAsync(data.PreparePacket(), token);
         }
@@ -187,29 +176,10 @@ namespace Sander0542.CMLedController.Abstractions
 
             var response = await WriteAndReadAsync(data.PreparePacket(), token);
 
-            _port1Color = Color.FromArgb(
-                response[PacketOffset.MultipleColor1],
-                response[PacketOffset.MultipleColor1 + 1],
-                response[PacketOffset.MultipleColor1 + 2]
-            );
-
-            _port2Color = Color.FromArgb(
-                response[PacketOffset.MultipleColor2],
-                response[PacketOffset.MultipleColor2 + 1],
-                response[PacketOffset.MultipleColor2 + 2]
-            );
-
-            _port3Color = Color.FromArgb(
-                response[PacketOffset.MultipleColor3],
-                response[PacketOffset.MultipleColor3 + 1],
-                response[PacketOffset.MultipleColor3 + 2]
-            );
-
-            _port4Color = Color.FromArgb(
-                response[PacketOffset.MultipleColor4],
-                response[PacketOffset.MultipleColor4 + 1],
-                response[PacketOffset.MultipleColor4 + 2]
-            );
+            _port1Color = response.GetColor(PacketOffset.MultipleColor1);
+            _port2Color = response.GetColor(PacketOffset.MultipleColor2);
+            _port3Color = response.GetColor(PacketOffset.MultipleColor3);
+            _port4Color = response.GetColor(PacketOffset.MultipleColor4);
         }
 
         private async Task SendSetConfigAsync(Mode mode, byte speed, byte brightness, Color color1, Color color2, bool simplified = false, bool multilayer = false, CancellationToken token = default)
@@ -238,9 +208,7 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Speed] = speed;
             data[PacketOffset.Brightness] = brightness;
 
-            data[PacketOffset.Color1] = color1.R;
-            data[PacketOffset.Color1 + 1] = color1.G;
-            data[PacketOffset.Color1 + 2] = color1.B;
+            data.SetColor(PacketOffset.Color1, color1);
 
             data[0x06] = (byte)(Equals(mode, Mode.Breathing) ? 0x20 : 0x00);
             data[0x07] = (byte)(Equals(mode, Mode.Star) ? 0x19 : 0xFF);
@@ -249,9 +217,7 @@ namespace Sander0542.CMLedController.Abstractions
             if (!simplified)
             {
                 data[PacketOffset.Multilayer] = (byte)(multilayer ? 0x01 : 0x00);
-                data[PacketOffset.Color2] = color2.R;
-                data[PacketOffset.Color2 + 1] = color2.G;
-                data[PacketOffset.Color2 + 2] = color2.B;
+                data.SetColor(PacketOffset.Color2, color2);
 
                 for (var i = 16; i < data.Length; i++)
                 {
@@ -275,16 +241,8 @@ namespace Sander0542.CMLedController.Abstractions
             Speed = response[PacketOffset.Speed];
             Brightness = response[PacketOffset.Brightness];
 
-            _modeColor1 = Color.FromArgb(
-                response[PacketOffset.Color1],
-                response[PacketOffset.Color1 + 1],
-                response[PacketOffset.Color1 + 2]
-            );
-            _modeColor2 = Color.FromArgb(
-                response[PacketOffset.Color2],
-                response[PacketOffset.Color2 + 1],
-                response[PacketOffset.Color2 + 2]
-            );
+            _modeColor1 = response.GetColor(PacketOffset.Color1);
+            _modeColor2 = response.GetColor(PacketOffset.Color2);
         }
 
         private async Task SendCustomColorStartAsync(CancellationToken token = default)
