@@ -1,16 +1,17 @@
-using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Moq;
 using Sander0542.CMLedController.Abstractions.Enums;
+using Sander0542.CMLedController.Abstractions.Extensions;
 using Sander0542.CMLedController.Tests.Shared;
 using Xunit;
 
-namespace Sander0542.CMLedController.Tests
+namespace Sander0542.CMLedController.Abstractions.Tests
 {
     public class LedControllerDeviceTests
     {
         [Fact]
-        public async void Call_SetMode_SetsMode()
+        public async Task Call_SetMode_SetsMode()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -22,7 +23,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_SetMode_SetsSpeed()
+        public async Task Call_SetMode_SetsSpeed()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -34,7 +35,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_SetMode_SetsBrightness()
+        public async Task Call_SetMode_SetsBrightness()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             var controller = new TestLedControllerDevice(mockDevice.Object);
@@ -50,7 +51,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue)]
         [InlineData(KnownColor.Blue, KnownColor.White)]
         [InlineData(KnownColor.White, KnownColor.Red)]
-        public async void Call_SetMode_SetsColorMode(KnownColor knownColor1, KnownColor knownColor2)
+        public async Task Call_SetMode_SetsColorMode(KnownColor knownColor1, KnownColor knownColor2)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -70,7 +71,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue, KnownColor.White, KnownColor.Red)]
         [InlineData(KnownColor.Blue, KnownColor.White, KnownColor.Red, KnownColor.Green)]
         [InlineData(KnownColor.White, KnownColor.Red, KnownColor.Green, KnownColor.Blue)]
-        public async void Call_SetMode_SetsPortColor(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
+        public async Task Call_SetMode_SetsPortColor(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -116,7 +117,7 @@ namespace Sander0542.CMLedController.Tests
         }
 
         [Fact]
-        public async void Call_ReadCurrentMode_CallsWriteAndRead()
+        public async Task Call_ReadCurrentMode_CallsWriteAndRead()
         {
             var mockDevice = new Mock<ITestHidDevice>();
             mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
@@ -138,7 +139,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(0x6F, 0x8A, KnownColor.Green, KnownColor.Blue)]
         [InlineData(0xD3, 0xB3, KnownColor.Blue, KnownColor.White)]
         [InlineData(0xE9, 0xEA, KnownColor.White, KnownColor.Red)]
-        public async void Call_ReadModeConfig_CallsWriteAndRead(byte speed, byte brightness, KnownColor knownColor1, KnownColor knownColor2)
+        public async Task Call_ReadModeConfig_CallsWriteAndRead(byte speed, byte brightness, KnownColor knownColor1, KnownColor knownColor2)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -148,12 +149,8 @@ namespace Sander0542.CMLedController.Tests
                 var response = new byte[64];
                 response[PacketOffset.Speed] = speed;
                 response[PacketOffset.Brightness] = brightness;
-                response[PacketOffset.Color1] = color1.R;
-                response[PacketOffset.Color1 + 1] = color1.G;
-                response[PacketOffset.Color1 + 2] = color1.B;
-                response[PacketOffset.Color2] = color2.R;
-                response[PacketOffset.Color2 + 1] = color2.G;
-                response[PacketOffset.Color2 + 2] = color2.B;
+                response.SetColor(PacketOffset.Color1, color1);
+                response.SetColor(PacketOffset.Color2, color2);
 
                 return response;
             });
@@ -174,7 +171,7 @@ namespace Sander0542.CMLedController.Tests
         [InlineData(KnownColor.Green, KnownColor.Blue, KnownColor.White, KnownColor.Red)]
         [InlineData(KnownColor.Blue, KnownColor.White, KnownColor.Red, KnownColor.Green)]
         [InlineData(KnownColor.White, KnownColor.Red, KnownColor.Green, KnownColor.Blue)]
-        public async void Call_ReadModeConfigMultiple_CallsWriteAndRead(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
+        public async Task Call_ReadModeConfigMultiple_CallsWriteAndRead(KnownColor knownColor1, KnownColor knownColor2, KnownColor knownColor3, KnownColor knownColor4)
         {
             var color1 = Color.FromKnownColor(knownColor1);
             var color2 = Color.FromKnownColor(knownColor2);
@@ -184,18 +181,10 @@ namespace Sander0542.CMLedController.Tests
             var mockDevice = new Mock<ITestHidDevice>();
             mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
                 var response = new byte[64];
-                response[PacketOffset.MultipleColor1] = color1.R;
-                response[PacketOffset.MultipleColor1 + 1] = color1.G;
-                response[PacketOffset.MultipleColor1 + 2] = color1.B;
-                response[PacketOffset.MultipleColor2] = color2.R;
-                response[PacketOffset.MultipleColor2 + 1] = color2.G;
-                response[PacketOffset.MultipleColor2 + 2] = color2.B;
-                response[PacketOffset.MultipleColor3] = color3.R;
-                response[PacketOffset.MultipleColor3 + 1] = color3.G;
-                response[PacketOffset.MultipleColor3 + 2] = color3.B;
-                response[PacketOffset.MultipleColor4] = color4.R;
-                response[PacketOffset.MultipleColor4 + 1] = color4.G;
-                response[PacketOffset.MultipleColor4 + 2] = color4.B;
+                response.SetColor(PacketOffset.MultipleColor1, color1);
+                response.SetColor(PacketOffset.MultipleColor2, color2);
+                response.SetColor(PacketOffset.MultipleColor3, color3);
+                response.SetColor(PacketOffset.MultipleColor4, color4);
 
                 return response;
             });
@@ -208,6 +197,17 @@ namespace Sander0542.CMLedController.Tests
             Assert.Equal(color2.ToArgb(), controller.GetPortColor(1).ToArgb());
             Assert.Equal(color3.ToArgb(), controller.GetPortColor(2).ToArgb());
             Assert.Equal(color4.ToArgb(), controller.GetPortColor(3).ToArgb());
+        }
+
+        [Fact]
+        public async Task Call_Dispose_ShouldDisposeDevice()
+        {
+            var mockDevice = new Mock<ITestHidDevice>();
+            var controller = new TestLedControllerDevice(mockDevice.Object);
+
+            controller.Dispose();
+
+            mockDevice.Verify(device => device.Dispose(), Times.Once);
         }
     }
 }
