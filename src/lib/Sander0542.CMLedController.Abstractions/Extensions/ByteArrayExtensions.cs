@@ -1,10 +1,28 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
+using Sander0542.CMLedController.Abstractions.Enums;
 
 namespace Sander0542.CMLedController.Abstractions.Extensions
 {
     public static class ByteArrayExtensions
     {
+        public static void SetColor(this byte[] data, PacketOffset packetOffset, Color color)
+        {
+            data[packetOffset] = color.R;
+            data[packetOffset + 1] = color.G;
+            data[packetOffset + 2] = color.B;
+        }
+        
+        public static Color GetColor(this byte[] data, PacketOffset packetOffset)
+        {
+            return Color.FromArgb(
+                data[packetOffset],
+                data[packetOffset + 1],
+                data[packetOffset + 2]
+            );
+        }
+
         public static byte[] PreparePacket(this byte[] data)
         {
             if (data.Length == Constants.PacketSize)
