@@ -105,7 +105,7 @@ namespace Sander0542.CMLedController.Abstractions
 
             await SendReadConfigAsync(mode, token);
 
-            if (mode == Mode.Multiple)
+            if (Equals(mode, Mode.Multiple))
             {
                 await SendReadCustomColorsAsync(token);
             }
@@ -221,13 +221,13 @@ namespace Sander0542.CMLedController.Abstractions
             _modeColor1 = color1;
             _modeColor2 = color2;
 
-            if (mode == Mode.ColorCycle)
+            if (Equals(mode, Mode.ColorCycle))
             {
                 brightness = 0xDF;
                 color1 = Color.White;
                 color2 = Color.Black;
             }
-            else if (mode == Mode.Off)
+            else if (Equals(mode, Mode.Off))
             {
                 brightness = 0x03;
             }
@@ -243,8 +243,8 @@ namespace Sander0542.CMLedController.Abstractions
             data[PacketOffset.Color1 + 1] = color1.G;
             data[PacketOffset.Color1 + 2] = color1.B;
 
-            data[0x06] = (byte)(mode == Mode.Breathing ? 0x20 : 0x00);
-            data[0x07] = (byte)(mode == Mode.Star ? 0x19 : 0xFF);
+            data[0x06] = (byte)(Equals(mode, Mode.Breathing) ? 0x20 : 0x00);
+            data[0x07] = (byte)(Equals(mode, Mode.Star) ? 0x19 : 0xFF);
             data[0x08] = 0xFF;
 
             if (!simplified)
