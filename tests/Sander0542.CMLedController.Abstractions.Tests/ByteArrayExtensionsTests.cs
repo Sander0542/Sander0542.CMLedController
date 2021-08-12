@@ -1,9 +1,8 @@
 ﻿using System;
-using Sander0542.CMLedController.Abstractions;
 using Sander0542.CMLedController.Abstractions.Extensions;
 using Xunit;
 
-namespace Sander0542.CMLedController.Tests
+namespace Sander0542.CMLedController.Abstractions.Tests
 {
     public class ByteArrayExtensionsTests
     {
@@ -17,7 +16,7 @@ namespace Sander0542.CMLedController.Tests
             Assert.Equal(Constants.PacketSize + 1, result.Length);
             Assert.Equal(0x00, result[0]);
         }
-        
+
         [Fact]
         public void Call_PrepareData_ReturnsSame()
         {
@@ -43,7 +42,7 @@ namespace Sander0542.CMLedController.Tests
             var data = new byte[Constants.PacketSize - 10];
 
             var result = data.PreparePacket();
-            
+
             Assert.Equal(Constants.PacketSize + 1, result.Length);
             Assert.Equal(0x00, result[0]);
         }
