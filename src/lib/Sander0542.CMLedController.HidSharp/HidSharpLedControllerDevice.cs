@@ -18,9 +18,17 @@ namespace Sander0542.CMLedController.HidSharp
             }
         }
 
-        protected override async Task WriteAsync(byte[] data, CancellationToken token = default)
+        protected override async Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default)
         {
             await _stream.WriteAsync(data, token);
+            await _stream.ReadAsync(data, token);
+
+            return data;
+        }
+
+        public override void Dispose()
+        {
+            _stream.Dispose();
         }
     }
 }
