@@ -27,9 +27,9 @@ namespace Sander0542.CMLedController.Abstractions
 
         protected abstract Task<byte[]> WriteAndReadAsync(byte[] data, CancellationToken token = default);
 
-        protected async Task<byte[]> WriteAndReadDataAsync(byte[] data, CancellationToken token = default)
+        protected async Task<Packet> WriteAndReadDataAsync(Packet packet, CancellationToken token = default)
         {
-            return (await WriteAndReadAsync(data.PreparePacket(), token)).PrepareResponse();
+            return (await WriteAndReadAsync(packet, token)).PrepareResponse();
         }
 
         public abstract void Dispose();
@@ -115,41 +115,49 @@ namespace Sander0542.CMLedController.Abstractions
 
         private async Task SendFlowControlAsync(byte flag, CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[0] = OpCode.FlowControl;
-            data[1] = flag;
+            var packet = new Packet
+            {
+                Operation = OpCode.FlowControl,
+                OperationType = flag
+            };
 
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
 
         private async Task SendApplyAsync(CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[0] = OpCode.Unknown50;
-            data[1] = OpCodeType.Unknown55;
+            var packet = new Packet
+            {
+                Operation = OpCode.Unknown50,
+                OperationType = OpCodeType.Unknown55
+            };
 
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
 
         private async Task SendReadModeAsync(CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Read;
-            data[PacketOffset.Type] = OpCodeType.Mode;
+            var packet = new Packet
+            {
+                Operation = OpCode.Read,
+                OperationType = OpCodeType.Mode
+            };
 
-            var response = await WriteAndReadDataAsync(data, token);
+            var response = await WriteAndReadDataAsync(packet, token);
 
-            Mode = response[PacketOffset.Mode];
+            Mode = response.Mode;
         }
 
         private async Task SendSetModeAsync(Mode mode, CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Write;
-            data[PacketOffset.Type] = OpCodeType.Mode;
-            data[PacketOffset.Mode] = mode;
+            var packet = new Packet
+            {
+                Operation = OpCode.Write,
+                OperationType = OpCodeType.Mode,
+                Mode = mode
+            };
 
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
 
         private async Task SendSetCustomColorsAsync(Color color1, Color color2, Color color3, Color color4, CancellationToken token = default)
@@ -159,30 +167,33 @@ namespace Sander0542.CMLedController.Abstractions
             _port3Color = color3;
             _port4Color = color4;
 
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Write;
-            data[PacketOffset.Type] = OpCodeType.LedInfo;
+            var packet = new Packet
+            {
+                Operation = OpCode.Write,
+                OperationType = OpCodeType.LedInfo,
+                MultipleColor1 = color1,
+                MultipleColor2 = color2,
+                MultipleColor3 = color3,
+                MultipleColor4 = color4,
+            };
 
-            data.SetColor(PacketOffset.MultipleColor1, color1);
-            data.SetColor(PacketOffset.MultipleColor2, color2);
-            data.SetColor(PacketOffset.MultipleColor3, color3);
-            data.SetColor(PacketOffset.MultipleColor4, color4);
-
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
 
         private async Task SendReadCustomColorsAsync(CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Read;
-            data[PacketOffset.Type] = OpCodeType.LedInfo;
+            var packet = new Packet
+            {
+                Operation = OpCode.Read,
+                OperationType = OpCodeType.LedInfo
+            };
 
-            var response = await WriteAndReadDataAsync(data, token);
+            var response = await WriteAndReadDataAsync(packet, token);
 
-            _port1Color = response.GetColor(PacketOffset.MultipleColor1);
-            _port2Color = response.GetColor(PacketOffset.MultipleColor2);
-            _port3Color = response.GetColor(PacketOffset.MultipleColor3);
-            _port4Color = response.GetColor(PacketOffset.MultipleColor4);
+            _port1Color = response.MultipleColor1;
+            _port2Color = response.MultipleColor2;
+            _port3Color = response.MultipleColor3;
+            _port4Color = response.MultipleColor4;
         }
 
         private async Task SendSetConfigAsync(Mode mode, byte speed, byte brightness, Color color1, Color color2, bool simplified = false, bool multilayer = false, CancellationToken token = default)
@@ -204,57 +215,61 @@ namespace Sander0542.CMLedController.Abstractions
                 brightness = 0x03;
             }
 
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Write;
-            data[PacketOffset.Type] = simplified ? OpCodeType.ConfigSimplified : OpCodeType.ConfigFull;
-            data[PacketOffset.Mode] = mode;
-            data[PacketOffset.Speed] = speed;
-            data[PacketOffset.Brightness] = brightness;
-
-            data.SetColor(PacketOffset.Color1, color1);
-
-            data[0x06] = (byte)(Equals(mode, Mode.Breathing) ? 0x20 : 0x00);
-            data[0x07] = (byte)(Equals(mode, Mode.Star) ? 0x19 : 0xFF);
-            data[0x08] = 0xFF;
+            var packet = new Packet
+            {
+                Operation = OpCode.Write,
+                OperationType = simplified ? OpCodeType.ConfigSimplified : OpCodeType.ConfigFull,
+                Mode = mode,
+                Speed = speed,
+                Brightness = brightness,
+                Color1 = color1
+            };
+            packet.Set(0x06, (byte)(Equals(mode, Mode.Breathing) ? 0x20 : 0x00));
+            packet.Set(0x07, (byte)(Equals(mode, Mode.Star) ? 0x19 : 0xFF));
+            packet.Set(0x08, 0xFF);
 
             if (!simplified)
             {
-                data[PacketOffset.Multilayer] = (byte)(multilayer ? 0x01 : 0x00);
-                data.SetColor(PacketOffset.Color2, color2);
+                packet.Multilayer = (byte)(multilayer ? 0x01 : 0x00);
+                packet.Color2 = color2;
 
-                for (var i = 16; i < data.Length; i++)
+                for (var i = 16; i < packet.Length; i++)
                 {
-                    data[i] = 0xFF;
+                    packet.Set(i, 0xFF);
                 }
             }
 
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
 
         private async Task SendReadConfigAsync(Mode mode, CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Read;
-            data[PacketOffset.Type] = OpCodeType.ConfigFull;
-            data[PacketOffset.Mode] = mode;
+            var packet = new Packet
+            {
+                Operation = OpCode.Read,
+                OperationType = OpCodeType.ConfigFull,
+                Mode = mode
+            };
 
-            var response = await WriteAndReadDataAsync(data, token);
+            var response = await WriteAndReadDataAsync(packet, token);
 
             Mode = mode;
-            Speed = response[PacketOffset.Speed];
-            Brightness = response[PacketOffset.Brightness];
+            Speed = response.Speed;
+            Brightness = response.Brightness;
 
-            _modeColor1 = response.GetColor(PacketOffset.Color1);
-            _modeColor2 = response.GetColor(PacketOffset.Color2);
+            _modeColor1 = response.Color1;
+            _modeColor2 = response.Color2;
         }
 
         private async Task SendCustomColorStartAsync(CancellationToken token = default)
         {
-            var data = new byte[Constants.PacketSize];
-            data[PacketOffset.Op] = OpCode.Read;
-            data[PacketOffset.Type] = OpCodeType.Unknown30;
+            var packet = new Packet
+            {
+                Operation = OpCode.Read,
+                OperationType = OpCodeType.Unknown30
+            };
 
-            await WriteAndReadDataAsync(data, token);
+            await WriteAndReadDataAsync(packet, token);
         }
     }
 }
