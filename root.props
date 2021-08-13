@@ -24,5 +24,11 @@
             <PackagePath>LICENSE.txt</PackagePath>
             <Visible>false</Visible>
         </Content>
+        <Content Include="$(MSBuildThisFileDirectory)/README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>README.md</PackagePath>
+            <Visible>false</Visible>
+        </Content>
     </ItemGroup>
 </Project>
