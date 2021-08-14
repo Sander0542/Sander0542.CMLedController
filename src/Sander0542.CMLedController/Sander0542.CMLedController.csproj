@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="../lib.props" />
+    <Import Project="../src.props" />
 
     <ItemGroup>
       <ProjectReference Include="..\Sander0542.CMLedController.Abstractions\Sander0542.CMLedController.Abstractions.csproj" />
