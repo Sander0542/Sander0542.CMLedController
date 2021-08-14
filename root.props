@@ -9,6 +9,7 @@
         <NoWarn>$(NoWarn);CS1591;NU5105;NU5125</NoWarn>
         <Nullable>annotations</Nullable>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageIcon>logo-512.png</PackageIcon>
         <PackageProjectUrl>https://github.com/Sander0542/Sander0542.CMLedController</PackageProjectUrl>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageTags>rgb;coolermaster;led;led-controller;controller;hid;hid-device</PackageTags>
@@ -28,6 +29,12 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Pack>true</Pack>
             <PackagePath>README.md</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)/assets/logo-512.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>logo-512.png</PackagePath>
             <Visible>false</Visible>
         </Content>
     </ItemGroup>
