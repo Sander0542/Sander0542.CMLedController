@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\lib\Sander0542.CMLedController.HidSharp\Sander0542.CMLedController.HidSharp.csproj" />
       <ProjectReference Include="..\lib\Sander0542.CMLedController\Sander0542.CMLedController.csproj" />
       <ProjectReference Include="..\lib\Sander0542.CMLedController.HidLibrary\Sander0542.CMLedController.HidLibrary.csproj" />
     </ItemGroup>

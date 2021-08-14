@@ -12,15 +12,17 @@ A library for the CoolerMaster RGB LED Controller
 | Sander0542.CMLedController.Abstractions | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.Abstractions) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.Abstractions) |
 | Sander0542.CMLedController.Extensions | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.Extensions) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.Extensions) |
 | Sander0542.CMLedController.HidLibrary | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.HidLibrary) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.HidLibrary) |
+| Sander0542.CMLedController.HidSharp | ![Current release](https://img.shields.io/nuget/v/Sander0542.CMLedController.HidSharp) | ![Downloads](https://img.shields.io/nuget/dt/Sander0542.CMLedController.HidSharp) |
 
 ## Implementations
 
-There are currently two implementations of this library. The default library `Sander0542.CMLedController` is using `Device.Net` for its processing. The package `Sander0542.CMLedController.HidLibrary` implements the `HidLibrary` library for processing.
+There are currently three implementations of this library. 
 
-| Package | Implementation | GitHub |
-|---------|----------------|--------|
-| Sander0542.CMLedController | [Device.Net](https://www.nuget.org/packages/Device.Net) | [Device.Net](https://github.com/MelbourneDeveloper/Device.Net) |
-| Sander0542.CMLedController.HidLibrary | [HidLibrary](https://www.nuget.org/packages/HidLibrary/) | [HidLibrary](https://github.com/mikeobrien/HidLibrary) |
+| Package | Implementation | Project |
+|---------|----------------|---------|
+| Sander0542.CMLedController | [Device.Net](https://www.nuget.org/packages/Device.Net) | [GitHub](https://github.com/MelbourneDeveloper/Device.Net) |
+| Sander0542.CMLedController.HidLibrary | [HidLibrary](https://www.nuget.org/packages/HidLibrary/) | [GitHub](https://github.com/mikeobrien/HidLibrary) |
+| Sander0542.CMLedController.HidSharp | [HidSharp](https://www.nuget.org/packages/HidSharp/) | [Website](https://www.zer7.com/software/hidsharp) |
 
 ## Usage
 
