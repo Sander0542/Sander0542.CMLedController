@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using Sander0542.CMLedController.Abstractions.Enums;
 using Sander0542.CMLedController.Abstractions.Extensions;
 
@@ -13,7 +15,7 @@ namespace Sander0542.CMLedController.Abstractions
             _data = new byte[Constants.PacketSize];
         }
 
-        public Packet(byte[] data)
+        private Packet(byte[] data)
         {
             _data = data;
         }
@@ -101,6 +103,29 @@ namespace Sander0542.CMLedController.Abstractions
         public void Set(int index, byte value) => _data[index] = value;
 
         public static implicit operator byte[](Packet packet) => packet._data.PreparePacket();
+        
         public static implicit operator Packet(byte[] data) => new Packet(data.PrepareResponse());
+
+        public override bool Equals(object obj)
+        {
+            return obj is Packet packet ? Equals(packet) : obj.Equals(this);
+        }
+
+        private bool Equals(Packet other)
+        {
+            return _data.SequenceEqual(other._data);
+        }
+        
+        public override int GetHashCode()
+        {
+            var result = 0;
+            var shift = 0;
+            foreach (var value in _data)
+            {
+                shift = (shift + 11) % 21;
+                result ^= (value+1024) << shift;
+            }
+            return result;
+        }
     }
 }
