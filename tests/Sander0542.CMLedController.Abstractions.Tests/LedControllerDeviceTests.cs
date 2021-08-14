@@ -120,11 +120,9 @@ namespace Sander0542.CMLedController.Abstractions.Tests
         public async Task Call_ReadCurrentMode_CallsWriteAndRead()
         {
             var mockDevice = new Mock<ITestHidDevice>();
-            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
-                var response = new byte[64];
-                response[PacketOffset.Mode] = Mode.ColorCycle;
-
-                return response;
+            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => new Packet
+            {
+                Mode = Mode.ColorCycle
             });
             var controller = new TestLedControllerDevice(mockDevice.Object);
 
@@ -145,14 +143,12 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             var color2 = Color.FromKnownColor(knownColor2);
 
             var mockDevice = new Mock<ITestHidDevice>();
-            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
-                var response = new byte[64];
-                response[PacketOffset.Speed] = speed;
-                response[PacketOffset.Brightness] = brightness;
-                response.SetColor(PacketOffset.Color1, color1);
-                response.SetColor(PacketOffset.Color2, color2);
-
-                return response;
+            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => new Packet
+            {
+                Speed = speed,
+                Brightness = brightness,
+                Color1 = color1,
+                Color2 = color2
             });
             var controller = new TestLedControllerDevice(mockDevice.Object);
 
@@ -179,14 +175,12 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             var color4 = Color.FromKnownColor(knownColor4);
 
             var mockDevice = new Mock<ITestHidDevice>();
-            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => {
-                var response = new byte[64];
-                response.SetColor(PacketOffset.MultipleColor1, color1);
-                response.SetColor(PacketOffset.MultipleColor2, color2);
-                response.SetColor(PacketOffset.MultipleColor3, color3);
-                response.SetColor(PacketOffset.MultipleColor4, color4);
-
-                return response;
+            mockDevice.Setup(device => device.WriteAndRead(It.IsAny<byte[]>())).Returns(() => new Packet
+            {
+                MultipleColor1 = color1,
+                MultipleColor2 = color2,
+                MultipleColor3 = color3,
+                MultipleColor4 = color4
             });
             var controller = new TestLedControllerDevice(mockDevice.Object);
 

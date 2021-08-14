@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Sander0542.CMLedController.Abstractions;
@@ -94,6 +95,14 @@ namespace Sander0542.CMLedController.RealDevice.Tests
             Assert.Equal(color2.ToArgb(), controller.GetPortColor(1).ToArgb());
             Assert.Equal(color3.ToArgb(), controller.GetPortColor(2).ToArgb());
             Assert.Equal(color4.ToArgb(), controller.GetPortColor(3).ToArgb());
+        }
+
+        [IgnoreWhenNoDeviceFact]
+        public async Task Call_Dispose()
+        {
+            var controller = (await _provider.GetControllersAsync()).First();
+
+            controller.Dispose();
         }
     }
 }
