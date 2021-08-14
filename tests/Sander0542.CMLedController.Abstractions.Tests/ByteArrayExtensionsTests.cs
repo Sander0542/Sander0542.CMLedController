@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Sander0542.CMLedController.Abstractions.Extensions;
 using Xunit;
 
@@ -57,6 +58,22 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             Assert.Same(data, result);
         }
 
+        [Theory]
+        [InlineData(0xF2)]
+        [InlineData(0x3C)]
+        [InlineData(0x81)]
+        [InlineData(0xAF)]
+        public void Call_PrepareResponse_RemovesPrefix(byte value)
+        {
+            var data = new byte[Constants.PacketSize + 1];
+            data[1] = value;
+
+            var result = data.PrepareResponse();
+
+            Assert.Equal(Constants.PacketSize, result.Length);
+            Assert.Equal(value, result[0]);
+        }
+
         [Fact]
         public void Call_PrepareResponse_TooLong_ThrowsError()
         {
@@ -73,6 +90,21 @@ namespace Sander0542.CMLedController.Abstractions.Tests
             var result = data.PrepareResponse();
 
             Assert.Equal(Constants.PacketSize, result.Length);
+        }
+
+        [Theory]
+        [InlineData(0x4A, KnownColor.Red)]
+        [InlineData(0x1A, KnownColor.Green)]
+        [InlineData(0x26, KnownColor.Blue)]
+        [InlineData(0x37, KnownColor.White)]
+        public void Call_SetColor_GetColor_ReturnsColor(byte index, KnownColor knownColor)
+        {
+            var color = Color.FromKnownColor(knownColor);
+
+            var data = new byte[index + 3];
+            data.SetColor(index, color);
+            
+            Assert.Equal(color.ToArgb(), data.GetColor(index).ToArgb());
         }
     }
 }
