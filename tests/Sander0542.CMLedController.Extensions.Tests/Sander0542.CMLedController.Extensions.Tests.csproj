@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\lib\Sander0542.CMLedController.Extensions\Sander0542.CMLedController.Extensions.csproj" />
+      <ProjectReference Include="..\..\src\Sander0542.CMLedController.Extensions\Sander0542.CMLedController.Extensions.csproj" />
       <ProjectReference Include="..\Sander0542.CMLedController.Tests.Shared\Sander0542.CMLedController.Tests.Shared.csproj" />
     </ItemGroup>
 
