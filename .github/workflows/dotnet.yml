@@ -12,14 +12,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Setup .NET'
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
+
+    - name: 'Restore dependencies'
       run: dotnet restore
-    - name: Build
+
+    - name: 'Build'
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+
+    - name: 'Test'
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+    - name: 'Codecov'
+      uses: codecov/codecov-action@v2
