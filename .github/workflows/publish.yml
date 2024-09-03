@@ -37,7 +37,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
       - name: 'Download version info file'
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: gitversion
           path: ./
@@ -61,7 +61,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
       - name: 'Download version info file'
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: gitversion
           path: ./
@@ -78,7 +78,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
       - name: 'Download nuget packages'
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: nupkg
       - name: 'Publish the package to Nuget.org'
